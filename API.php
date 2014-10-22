@@ -23,7 +23,7 @@ use Piwik\Common;
  */
 class API extends \Piwik\Plugin\API {
 
-	function isSocialUrl($url, $socialName = false)
+	private static function isSocialUrl($url, $socialName = false)
 	{
 		foreach (Common::getSocialUrls() as $domain => $name) {
 	
