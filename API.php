@@ -14,6 +14,7 @@ use Piwik\Settings\SystemSetting;
 use Piwik\Settings\UserSetting;
 use Piwik\Settings\Manager as SettingsManager;
 use Piwik\Plugins\Referrers;
+use Piwik\Site;
 use Piwik\Common;
 
 
