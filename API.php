@@ -124,7 +124,7 @@ class API extends \Piwik\Plugin\API {
         ));
         $socialCount = 0;
         foreach ($social as &$value) {
-        	if(isSocialUrl($value['referer_url'])) $socialCount++;
+        	if(API::isSocialUrl($value['referer_url'])) $socialCount++;
         }
         
         return array(
@@ -132,7 +132,7 @@ class API extends \Piwik\Plugin\API {
         	'directVisits' => (int)$direct,
         	'searchEngineVisits' => (int)$search,
         	'campaignVisits' => (int)$campaign,
-        	'websiteVisits' => (int)$website,
+        	'websiteVisits' => (int)$website-(int)$socialCount, //subtract socials
         	'socialVisits' => (int)$socialCount
         );
     }
