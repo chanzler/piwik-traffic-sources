@@ -107,7 +107,7 @@ class API extends \Piwik\Plugin\API {
                 ";
                 
         $social = \Piwik\Db::fetchAll($socialSql, array(
-        		$lastMinutes+($timeZoneDiff/60), $idSite
+        		$idSite, $lastMinutes+($timeZoneDiff/60)
         ));
         $socialCount = 0;
         foreach ($social as &$value) {
