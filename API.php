@@ -13,7 +13,6 @@ use \DateTimeZone;
 use Piwik\Settings\SystemSetting;
 use Piwik\Settings\UserSetting;
 use Piwik\Settings\Manager as SettingsManager;
-use Piwik\Plugins\Referrers;
 use Piwik\Site;
 use Piwik\Common;
 
@@ -24,6 +23,19 @@ use Piwik\Common;
  */
 class API extends \Piwik\Plugin\API {
 
+	function isSocialUrl($url, $socialName = false)
+	{
+		foreach (Common::getSocialUrls() as $domain => $name) {
+	
+			if (preg_match('/(^|[\.\/])'.$domain.'([\.\/]|$)/', $url) && ($socialName === false || $name == $socialName)) {
+	
+				return true;
+			}
+		}
+	
+		return false;
+	}
+	
 	private static function get_timezone_offset($remote_tz, $origin_tz = null) {
     		if($origin_tz === null) {
         		if(!is_string($origin_tz = date_default_timezone_get())) {
