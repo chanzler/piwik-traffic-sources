@@ -62,11 +62,14 @@ class API extends \Piwik\Plugin\API {
     {
         \Piwik\Piwik::checkUserHasViewAccess($idSite);
 		$timeZoneDiff = API::get_timezone_offset('UTC', Site::getTimezoneFor($idSite));
-
+		$origin_dtz = new \DateTimeZone(Site::getTimezoneFor($idSite));
+		$origin_dt = new \DateTime("now", $origin_dtz);
+		$now = $origin_dt->format('Y-m-d H:i:s');
+		
         $totalSql = "SELECT COUNT(*)
                 FROM " . \Piwik\Common::prefixTable("log_visit") . "
                 WHERE idsite = ?
-                AND DATE_SUB(NOW(), INTERVAL ? MINUTE) < visit_last_action_time
+                AND DATE_SUB('".$now."', INTERVAL ? MINUTE) < visit_last_action_time
                 ";
         $total = \Piwik\Db::fetchOne($totalSql, array(
         		$idSite, $lastMinutes+($timeZoneDiff/60)
@@ -75,7 +78,7 @@ class API extends \Piwik\Plugin\API {
         $directSql = "SELECT COUNT(*)
                 FROM " . \Piwik\Common::prefixTable("log_visit") . "
                 WHERE idsite = ?
-                AND DATE_SUB(NOW(), INTERVAL ? MINUTE) < visit_last_action_time
+                AND DATE_SUB('".$now."', INTERVAL ? MINUTE) < visit_last_action_time
                 AND referer_type = ".Common::REFERRER_TYPE_DIRECT_ENTRY."
                 ";
         $direct = \Piwik\Db::fetchOne($directSql, array(
@@ -85,7 +88,7 @@ class API extends \Piwik\Plugin\API {
         $searchSql = "SELECT COUNT(*)
                 FROM " . \Piwik\Common::prefixTable("log_visit") . "
                 WHERE idsite = ?
-                AND DATE_SUB(NOW(), INTERVAL ? MINUTE) < visit_last_action_time
+                AND DATE_SUB('".$now."', INTERVAL ? MINUTE) < visit_last_action_time
                 AND referer_type = ".Common::REFERRER_TYPE_SEARCH_ENGINE."
                 ";
         $search = \Piwik\Db::fetchOne($searchSql, array(
@@ -95,7 +98,7 @@ class API extends \Piwik\Plugin\API {
         $campaignSql = "SELECT COUNT(*)
                 FROM " . \Piwik\Common::prefixTable("log_visit") . "
                 WHERE idsite = ?
-                AND DATE_SUB(NOW(), INTERVAL ? MINUTE) < visit_last_action_time
+                AND DATE_SUB('".$now."', INTERVAL ? MINUTE) < visit_last_action_time
                 AND referer_type = ".Common::REFERRER_TYPE_CAMPAIGN."
                 ";
         $campaign = \Piwik\Db::fetchOne($campaignSql, array(
@@ -105,7 +108,7 @@ class API extends \Piwik\Plugin\API {
         $websiteSql = "SELECT COUNT(*)
                 FROM " . \Piwik\Common::prefixTable("log_visit") . "
                 WHERE idsite = ?
-                AND DATE_SUB(NOW(), INTERVAL ? MINUTE) < visit_last_action_time
+                AND DATE_SUB('".$now."', INTERVAL ? MINUTE) < visit_last_action_time
                 AND referer_type = ".Common::REFERRER_TYPE_WEBSITE."
                 ";
         $website = \Piwik\Db::fetchOne($websiteSql, array(
@@ -115,7 +118,7 @@ class API extends \Piwik\Plugin\API {
         $socialSql = "SELECT referer_url
                 FROM " . \Piwik\Common::prefixTable("log_visit") . "
                 WHERE idsite = ?
-                AND DATE_SUB(NOW(), INTERVAL ? MINUTE) < visit_last_action_time
+                AND DATE_SUB('".$now."', INTERVAL ? MINUTE) < visit_last_action_time
                 AND referer_type = ".Common::REFERRER_TYPE_WEBSITE."
                 ";
                 
