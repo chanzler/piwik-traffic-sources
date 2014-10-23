@@ -117,8 +117,9 @@ class API extends \Piwik\Plugin\API {
         	if(API::isSocialUrl($value['referer_url'])) $socialCount++;
         }
         $internalCount = 0;
+        echo(Site::getMainUrlFor($idSite));
         foreach ($socialInternal as &$value) {
-        	if(strpos($value['referer_url'],Site::getMainUrlFor($idSite))==0 ) $internalCount++;
+        	if(strpos($value['referer_url'],Site::getMainUrlFor($idSite)) == 0 ) $internalCount++;
         }
 
         $totalVisits = (int)$direct+$search+$campaign+$website;
