@@ -46,6 +46,11 @@ class API extends \Piwik\Plugin\API {
     		$offset = $origin_dtz->getOffset($origin_dt) - $remote_dtz->getOffset($remote_dt);
     		return $offset;
 	}
+	
+	private static function startsWith($haystack, $needle){
+    	return $needle === "" || strpos($haystack, $needle) === 0;
+	}
+	
     /**
      * Retrieves visit count from lastMinutes and peak visit count from lastDays
      * in lastMinutes interval for site with idSite.
@@ -117,19 +122,18 @@ class API extends \Piwik\Plugin\API {
         	if(API::isSocialUrl($value['referer_url'])) $socialCount++;
         }
         $internalCount = 0;
-        echo(Site::getMainUrlFor($idSite));
         foreach ($socialInternal as &$value) {
-        	if(strpos($value['referer_url'],Site::getMainUrlFor($idSite)) == 0 ) $internalCount++;
+        	if(startsWith($value['referer_url'], Site::getMainUrlFor($idSite))) $internalCount++;
         }
 
         $totalVisits = (int)$direct+$search+$campaign+$website;
         return array(
-        	array('name'=>'directVisits', 'value'=>(int)round($direct/$totalVisits*100)),
-        	array('name'=>'searchEngineVisits', 'value'=>(int)round($search/$totalVisits*100)),
-        	array('name'=>'campaignVisits', 'value'=>(int)round($campaign/$totalVisits*100)),
-        	array('name'=>'websiteVisits', 'value'=>(int)round($website/$totalVisits*100)), //subtract socials and internals
-        	array('name'=>'socialVisits', 'value'=>(int)round($socialCount/$totalVisits*100)),
-        	array('name'=>'internalVisits', 'value'=>(int)round($internalCount/$totalVisits*100))
+        	array('name'=>'directVisits', 'value'=>($totalVisits==0)?0:(int)round($direct/$totalVisits*100)),
+        	array('name'=>'searchEngineVisits', 'value'=>($totalVisits==0)?0:(int)round($search/$totalVisits*100)),
+        	array('name'=>'campaignVisits', 'value'=>($totalVisits==0)?0:(int)round($campaign/$totalVisits*100)),
+        	array('name'=>'websiteVisits', 'value'=>($totalVisits==0)?0:(int)round($website/$totalVisits*100)), //subtract socials and internals
+        	array('name'=>'socialVisits', 'value'=>($totalVisits==0)?0:(int)round($socialCount/$totalVisits*100)),
+        	array('name'=>'internalVisits', 'value'=>($totalVisits==0)?0:(int)round($internalCount/$totalVisits*100))
         );
 /*        return array(
             array('name'=>'totalVisits', 'value'=>(int)$direct+$search+$campaign+$website),
