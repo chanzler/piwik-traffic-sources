@@ -118,7 +118,7 @@ class API extends \Piwik\Plugin\API {
         }
         $internalCount = 0;
         foreach ($socialInternal as &$value) {
-        	if($value['referer_url'].startsWith(Site::getMainUrlFor($idSite))) $internalCount++;
+        	if(strpos($value['referer_url'],Site::getMainUrlFor($idSite))==0 ) $internalCount++;
         }
 
         return array(
