@@ -27,17 +27,15 @@ class Controller extends \Piwik\Plugin\Controller
         ksort($pluginsSettings);
         return $pluginsSettings;
     }
+
     public function index()
     {
 		$settings = new Settings('TrafficSources');
 
-        $view = new View('@ConcurrentsByTrafficSource/index.twig');
+        $view = new View('@TrafficSources/index.twig');
         $this->setBasicVariablesView($view);
         $view->idSite = $this->idSite;
-        $view->visits = API::getCurrentVisitors($this->idSite);
-        $view->maxVisits = API::getMaxVisitors($this->idSite);
         $view->refreshInterval = (int)$settings->refreshInterval->getValue();
-		$view->pluginSettings = $settings;
 
         return $view->render();
     }

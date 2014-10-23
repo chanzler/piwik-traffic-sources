@@ -1,20 +1,10 @@
 {
-    "ConcurrentsByTrafficSource": {
+    "TrafficSources": {
         "SettingsIntroduction": "Hier können Sie das Verhalten des Plugins konfigurieren.",
         "SettingsRefreshInterval": "Aktualisierungsintervall",
         "SettingsRefreshIntervalDescription": "Legt fest, in welchem Zeitabstand in Sekunden das Widget aktualisiert wird.",
         "SettingsRefreshIntervalHelp": "Geben Sie eine Zahl >= 1 an",
-        "SettingsCPOT": "Meßzeitraum",
-        "SettingsCPOTDescription": "Legt fest, wie lang die Meßperiode in Minuten ist.",
-        "SettingsCPOTHelp": "Geben Sie eine Zahl zwischen 1 und 30 an",
-        "SettingsHPOT": "Vergleichszeitraum",
-        "SettingsHPOTDescription": "Legt fest, mit welchem Zeitraum (x * 24h) die letzten vorher konfigurierten Minuten verglichen werden.",
-        "SettingsHPOTHelp": "Geben Sie eine Zahl zwischen 1 und 30 an",
-        "SettingsSites": "Webseiten in Übersicht",
-        "SettingsSitesDescription": "Legt fest, welche Webseiten in der Übersicht angezeigt werden.",
-        "Description": "Anzahl Besucher in den letzten 30 Minuten (verglichen mit dem Maximum des konfigurierten Zeitraums)",
-        "PerformanceSummary": "Performance Übersicht",
-        "TopLinkTooltip": "Zeigt eine Übersicht der aktuellen Performance aller Websites",
-        "WidgetName": "Performance Monitor"
+        "Description": "Zeigt eine Übersicht der aktuellen Trafficquellen",
+        "WidgetName": "Trafficquellen"
     }
 }

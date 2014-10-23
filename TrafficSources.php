@@ -28,14 +28,12 @@ class TrafficSources extends \Piwik\Plugin
 
     public function getJsFiles(&$jsFiles)
     {
-        $jsFiles[] = 'plugins/TrafficSources/javascripts/performancemonitor.js';
-        $jsFiles[] = 'plugins/TrafficSources/javascripts/excanvas.min.js';
-        $jsFiles[] = 'plugins/TrafficSources/javascripts/jquery.flot.js';
+        $jsFiles[] = 'plugins/TrafficSources/javascripts/trafficsources.js';
     }
 
     public function getStylesheetFiles(&$stylesheets)
     {
-        $stylesheets[] = "plugins/TrafficSources/stylesheets/performancemonitor.css";
+        $stylesheets[] = "plugins/TrafficSources/stylesheets/trafficsources.css";
     }
 
     /**

@@ -10,9 +10,6 @@ namespace Piwik\Plugins\TrafficSources;
 
 use Piwik\API\Request;
 use \DateTimeZone;
-use Piwik\Settings\SystemSetting;
-use Piwik\Settings\UserSetting;
-use Piwik\Settings\Manager as SettingsManager;
 use Piwik\Site;
 use Piwik\Common;
 
@@ -58,23 +55,13 @@ class API extends \Piwik\Plugin\API {
      * @param int $lastDays
      * @return int
      */
-    public static function getVisitorCounter($idSite, $lastMinutes=20)
+    public static function getTrafficSources($idSite, $lastMinutes=20)
     {
         \Piwik\Piwik::checkUserHasViewAccess($idSite);
 		$timeZoneDiff = API::get_timezone_offset('UTC', Site::getTimezoneFor($idSite));
 		$origin_dtz = new \DateTimeZone(Site::getTimezoneFor($idSite));
 		$origin_dt = new \DateTime("now", $origin_dtz);
 		$refTime = $origin_dt->format('Y-m-d H:i:s');
-		
-        $totalSql = "SELECT COUNT(*)
-                FROM " . \Piwik\Common::prefixTable("log_visit") . "
-                WHERE idsite = ?
-                AND DATE_SUB('".$refTime."', INTERVAL ? MINUTE) < visit_last_action_time
-                ";
-        $total = \Piwik\Db::fetchOne($totalSql, array(
-        		$idSite, $lastMinutes+($timeZoneDiff/60)
-        ));
-        
         $directSql = "SELECT COUNT(*)
                 FROM " . \Piwik\Common::prefixTable("log_visit") . "
                 WHERE idsite = ?
@@ -115,29 +102,43 @@ class API extends \Piwik\Plugin\API {
         		$idSite, $lastMinutes+($timeZoneDiff/60)
         ));
 
-        $socialSql = "SELECT referer_url
+        $socialInternalSql = "SELECT referer_url
                 FROM " . \Piwik\Common::prefixTable("log_visit") . "
                 WHERE idsite = ?
                 AND DATE_SUB('".$refTime."', INTERVAL ? MINUTE) < visit_last_action_time
                 AND referer_type = ".Common::REFERRER_TYPE_WEBSITE."
                 ";
                 
-        $social = \Piwik\Db::fetchAll($socialSql, array(
+        $socialInternal = \Piwik\Db::fetchAll($socialInternalSql, array(
         		$idSite, $lastMinutes+($timeZoneDiff/60)
         ));
         $socialCount = 0;
-        foreach ($social as &$value) {
+        foreach ($socialInternal as &$value) {
         	if(API::isSocialUrl($value['referer_url'])) $socialCount++;
         }
-        
+        $internalCount = 0;
+        foreach ($socialInternal as &$value) {
+        	if($value['referer_url'].startsWith(Site::getMainUrlFor($idSite))) $internalCount++;
+        }
+
         return array(
-            'totalVisits' => (int)$total,
+            'totalVisits' => (int)$direct+$search+$campaign+$website,
         	'directVisits' => (int)$direct,
         	'searchEngineVisits' => (int)$search,
         	'campaignVisits' => (int)$campaign,
-        	'websiteVisits' => (int)$website-(int)$socialCount, //subtract socials
-        	'socialVisits' => (int)$socialCount
+        	'websiteVisits' => (int)$website-$socialCount-$internalCount, //subtract socials and internals
+        	'socialVisits' => (int)$socialCount,
+        	'internalVisits' => (int)$internalCount
         );
+/*        return array(
+            array('name'=>'totalVisits', 'value'=>(int)$direct+$search+$campaign+$website),
+        	array('name'=>'directVisits', 'value'=>(int)100),
+        	array('name'=>'searchEngineVisits', 'value'=>(int)23),
+        	array('name'=>'campaignVisits', 'value'=>(int)2),
+        	array('name'=>'websiteVisits', 'value'=>(int)80-(int)32), //subtract socials
+        	array('name'=>'socialVisits', 'value'=>(int)32),
+        	array('name'=>'internalVisits', 'value'=>(int)22)
+        );*/
     }
 
 }
