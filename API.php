@@ -122,13 +122,13 @@ class API extends \Piwik\Plugin\API {
         }
 
         return array(
-            'totalVisits' => (int)$direct+$search+$campaign+$website,
-        	'directVisits' => (int)$direct,
-        	'searchEngineVisits' => (int)$search,
-        	'campaignVisits' => (int)$campaign,
-        	'websiteVisits' => (int)$website-$socialCount-$internalCount, //subtract socials and internals
-        	'socialVisits' => (int)$socialCount,
-        	'internalVisits' => (int)$internalCount
+            array('name'=>'totalVisits', 'value'=>(int)$direct+$search+$campaign+$website),
+        	array('name'=>'directVisits', 'value'=>(int)$direct),
+        	array('name'=>'searchEngineVisits', 'value'=>(int)$search),
+        	array('name'=>'campaignVisits', 'value'=>(int)$campaign),
+        	array('name'=>'websiteVisits', 'value'=>(int)$website), //subtract socials and internals
+        	array('name'=>'socialVisits', 'value'=>(int)$socialCount),
+        	array('name'=>'internalVisits', 'value'=>(int)$internalCount)
         );
 /*        return array(
             array('name'=>'totalVisits', 'value'=>(int)$direct+$search+$campaign+$website),
