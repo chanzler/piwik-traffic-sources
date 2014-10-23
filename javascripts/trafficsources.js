@@ -59,7 +59,6 @@ $(function() {
         	    return b.value - a.value;
         	});
         	$.each( data, function( index, value ){
-            	//$('#chart div').each(function() {
                 	var pc = value['value'];
 	        		pc = pc > 100 ? 100 : pc;
 	        		$('#chart').find("div[index="+index+"]").children('.percent').html(pc+'%');
@@ -67,7 +66,6 @@ $(function() {
 	        		var ww = $('#chart').find("div[index="+index+"]").width();
 	        		var len = parseInt(ww, 10) * parseInt(pc, 10) / 100;
 	        		$('#chart').find("div[index="+index+"]").children('.bar').animate({ 'width' : len+'px' }, 1500);
-            	//});
         	});
             $('#chart').each(function() {
                 var $this = $(this),

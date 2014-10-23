@@ -121,14 +121,14 @@ class API extends \Piwik\Plugin\API {
         	if(strpos($value['referer_url'],Site::getMainUrlFor($idSite))==0 ) $internalCount++;
         }
 
+        $totalVisits = (int)$direct+$search+$campaign+$website;
         return array(
-            array('name'=>'totalVisits', 'value'=>(int)$direct+$search+$campaign+$website),
-        	array('name'=>'directVisits', 'value'=>(int)$direct),
-        	array('name'=>'searchEngineVisits', 'value'=>(int)$search),
-        	array('name'=>'campaignVisits', 'value'=>(int)$campaign),
-        	array('name'=>'websiteVisits', 'value'=>(int)$website), //subtract socials and internals
-        	array('name'=>'socialVisits', 'value'=>(int)$socialCount),
-        	array('name'=>'internalVisits', 'value'=>(int)$internalCount)
+        	array('name'=>'directVisits', 'value'=>(int)round($direct/$totalVisits*100)),
+        	array('name'=>'searchEngineVisits', 'value'=>(int)round($search/$totalVisits*100)),
+        	array('name'=>'campaignVisits', 'value'=>(int)round($campaign/$totalVisits*100)),
+        	array('name'=>'websiteVisits', 'value'=>(int)round($website/$totalVisits*100)), //subtract socials and internals
+        	array('name'=>'socialVisits', 'value'=>(int)round($socialCount/$totalVisits*100)),
+        	array('name'=>'internalVisits', 'value'=>(int)round($internalCount/$totalVisits*100))
         );
 /*        return array(
             array('name'=>'totalVisits', 'value'=>(int)$direct+$search+$campaign+$website),
