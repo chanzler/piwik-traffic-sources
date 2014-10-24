@@ -107,23 +107,19 @@ class API extends \Piwik\Plugin\API {
         		$idSite, $lastMinutes+($timeZoneDiff/60)
         ));
 
-        $socialInternalSql = "SELECT referer_url
+        $socialSql = "SELECT referer_url
                 FROM " . \Piwik\Common::prefixTable("log_visit") . "
                 WHERE idsite = ?
                 AND DATE_SUB('".$refTime."', INTERVAL ? MINUTE) < visit_last_action_time
                 AND referer_type = ".Common::REFERRER_TYPE_WEBSITE."
                 ";
                 
-        $socialInternal = \Piwik\Db::fetchAll($socialInternalSql, array(
+        $social = \Piwik\Db::fetchAll($socialSql, array(
         		$idSite, $lastMinutes+($timeZoneDiff/60)
         ));
         $socialCount = 0;
         foreach ($socialInternal as &$value) {
         	if(API::isSocialUrl($value['referer_url'])) $socialCount++;
-        }
-        $internalCount = 0;
-        foreach ($socialInternal as &$value) {
-        	if(API::startsWith($value['referer_url'], Site::getMainUrlFor($idSite))) $internalCount++;
         }
 
         $totalVisits = (int)$direct+$search+$campaign+$website;
@@ -132,8 +128,7 @@ class API extends \Piwik\Plugin\API {
         	array('name'=>'searchEngineVisits', 'value'=>$search, 'percentage'=>($totalVisits==0)?0:(int)round($search/$totalVisits*100)),
         	array('name'=>'campaignVisits', 'value'=>$campaign, 'percentage'=>($totalVisits==0)?0:(int)round($campaign/$totalVisits*100)),
         	array('name'=>'websiteVisits', 'value'=>$website, 'percentage'=>($totalVisits==0)?0:(int)round($website/$totalVisits*100)), //subtract socials and internals
-        	array('name'=>'socialVisits', 'value'=>$socialCount, 'percentage'=>($totalVisits==0)?0:(int)round($socialCount/$totalVisits*100)),
-        	array('name'=>'internalVisits', 'value'=>$internalCount, 'percentage'=>($totalVisits==0)?0:(int)round($internalCount/$totalVisits*100))
+        	array('name'=>'socialVisits', 'value'=>$socialCount, 'percentage'=>($totalVisits==0)?0:(int)round($socialCount/$totalVisits*100))
         );
 /*        return array(
             array('name'=>'totalVisits', 'value'=>(int)$direct+$search+$campaign+$website),
