@@ -123,7 +123,22 @@ class API extends \Piwik\Plugin\API {
         }
 
         $totalVisits = (int)$direct+$search+$campaign+$website;
-		echo(($direct/$totalVisits*100)."->".($totalVisits==0)?0:round($direct/$totalVisits*100,1));
+echo(($direct/$totalVisits*100));
+echo ("=");
+echo (($totalVisits==0)?0:round($direct/$totalVisits*100,1));
+echo(($search/$totalVisits*100));
+echo ("=");
+echo (($searchVisits==0)?0:round($search/$totalVisits*100,1));
+echo(($campaign/$totalVisits*100));
+echo ("=");
+echo (($totalVisits==0)?0:round($campaign/$totalVisits*100,1));
+echo(($website-$socialCount/$totalVisits*100));
+echo ("=");
+echo (($totalVisits==0)?0:round($website-$socialCount/$totalVisits*100,1));
+echo(($socialCount/$totalVisits*100));
+echo ("=");
+echo (($totalVisits==0)?0:round($socialCount/$totalVisits*100,1));
+ 		
         return array(
         	array('name'=>'directVisits', 'value'=>$direct, 'percentage'=>($totalVisits==0)?0:round($direct/$totalVisits*100,1)),
         	array('name'=>'searchEngineVisits', 'value'=>$search, 'percentage'=>($totalVisits==0)?0:round($search/$totalVisits*100,1)),
