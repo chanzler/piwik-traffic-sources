@@ -118,7 +118,7 @@ class API extends \Piwik\Plugin\API {
         		$idSite, $lastMinutes+($timeZoneDiff/60)
         ));
         $socialCount = 0;
-        foreach ($socialInternal as &$value) {
+        foreach ($social as &$value) {
         	if(API::isSocialUrl($value['referer_url'])) $socialCount++;
         }
 
