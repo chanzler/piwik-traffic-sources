@@ -127,7 +127,7 @@ class API extends \Piwik\Plugin\API {
         	array('name'=>'directVisits', 'value'=>$direct, 'percentage'=>($totalVisits==0)?0:round($direct/$totalVisits*100,1)),
         	array('name'=>'searchEngineVisits', 'value'=>$search, 'percentage'=>($totalVisits==0)?0:round($search/$totalVisits*100,1)),
         	array('name'=>'campaignVisits', 'value'=>$campaign, 'percentage'=>($totalVisits==0)?0:round($campaign/$totalVisits*100,1)),
-        	array('name'=>'websiteVisits', 'value'=>$website, 'percentage'=>($totalVisits==0)?0:round($website/$totalVisits*100,1)), //subtract socials and internals
+        	array('name'=>'websiteVisits', 'value'=>$website, 'percentage'=>($totalVisits==0)?0:round(($website-$socialCount)/$totalVisits*100,1)), //subtract socials and internals
         	array('name'=>'socialVisits', 'value'=>$socialCount, 'percentage'=>($totalVisits==0)?0:round($socialCount/$totalVisits*100,1))
         );
 /*        return array(
