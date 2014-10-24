@@ -124,11 +124,11 @@ class API extends \Piwik\Plugin\API {
 
         $totalVisits = (int)$direct+$search+$campaign+$website;
         return array(
-        	array('name'=>'directVisits', 'value'=>$direct, 'percentage'=>($totalVisits==0)?0:(int)round($direct/$totalVisits*100,1)),
-        	array('name'=>'searchEngineVisits', 'value'=>$search, 'percentage'=>($totalVisits==0)?0:(int)round($search/$totalVisits*100,1)),
-        	array('name'=>'campaignVisits', 'value'=>$campaign, 'percentage'=>($totalVisits==0)?0:(int)round($campaign/$totalVisits*100,1)),
-        	array('name'=>'websiteVisits', 'value'=>$website, 'percentage'=>($totalVisits==0)?0:(int)round($website/$totalVisits*100,1)), //subtract socials and internals
-        	array('name'=>'socialVisits', 'value'=>$socialCount, 'percentage'=>($totalVisits==0)?0:(int)round($socialCount/$totalVisits*100,1))
+        	array('name'=>'directVisits', 'value'=>$direct, 'percentage'=>($totalVisits==0)?0:round($direct/$totalVisits*100,1)),
+        	array('name'=>'searchEngineVisits', 'value'=>$search, 'percentage'=>($totalVisits==0)?0:round($search/$totalVisits*100,1)),
+        	array('name'=>'campaignVisits', 'value'=>$campaign, 'percentage'=>($totalVisits==0)?0:round($campaign/$totalVisits*100,1)),
+        	array('name'=>'websiteVisits', 'value'=>$website, 'percentage'=>($totalVisits==0)?0:round($website/$totalVisits*100,1)), //subtract socials and internals
+        	array('name'=>'socialVisits', 'value'=>$socialCount, 'percentage'=>($totalVisits==0)?0:round($socialCount/$totalVisits*100,1))
         );
 /*        return array(
             array('name'=>'totalVisits', 'value'=>(int)$direct+$search+$campaign+$website),
