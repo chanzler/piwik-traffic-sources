@@ -30,7 +30,7 @@ $(function() {
         	});
         	$.each( data, function( index, value ){
             	//$('#chart div').each(function() {
-                	var pc = value['value'];
+                	var pc = value['percentage'];
 	        		pc = pc > 100 ? 100 : pc;
 	        		$('#chart').find("div[index="+index+"]").children('.percent').html(pc+'%');
 	        		var ww = $('#chart').find("div[index="+index+"]").width();
@@ -59,7 +59,7 @@ $(function() {
         	    return b.value - a.value;
         	});
         	$.each( data, function( index, value ){
-                	var pc = value['value'];
+                	var pc = value['percentage'];
 	        		pc = pc > 100 ? 100 : pc;
 	        		$('#chart').find("div[index="+index+"]").children('.percent').html(pc+'%');
 	        		$('#chart').find("div[index="+index+"]").children('.title').text(value['name']);
