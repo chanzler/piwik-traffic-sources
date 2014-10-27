@@ -5,6 +5,11 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  */
 
+var settings = $.extend( {
+	rowHeight			: 25,
+});
+var history = [];
+
 /**
  * jQueryUI widget for Live visitors widget
  */
@@ -29,15 +34,21 @@ $(function() {
         	    return b.value - a.value;
         	});
         	$.each( data, function( index, value ){
-            	//$('#chart div').each(function() {
-                	var pc = value['percentage'];
-	        		pc = pc > 100 ? 100 : pc;
-	        		$('#chart').find("div[index="+index+"]").children('.percent').html(pc+'%');
-	        		var ww = $('#chart').find("div[index="+index+"]").width();
-	        		var len = parseInt(ww, 10) * parseInt(pc, 10) / 100;
-	        		$('#chart').find("div[index="+index+"]").children('.bar').animate({ 'width' : len+'px' }, 1500);
-            	//});
+              	var pc = value['percentage'];
+        		pc = pc > 100 ? 100 : pc;
+        		$('#chart').find("div[id="+value['id']+"]").children('.percent').html(pc+'%');
+        		var ww = $('#chart').find("div[id="+value['id']+"]").width();
+        		var len = parseInt(ww, 10) * parseInt(pc, 10) / 100;
+        		$('#chart').find("div[id="+value['id']+"]").children('.bar').animate({ 'width' : len+'px' }, 1500);
+        		$('#chart').find("div[id="+value['id']+"]").attr("index", index);
+
         	});
+			//animation
+			var vertical_offset = 30; // Beginning distance of rows from the table body in pixels
+			for ( index = 0; index < data.length; index++) {
+				$("#chart").find("div[index="+index+"]").stop().delay(1 * index).animate({ top: vertical_offset}, 1000, 'swing').appendTo("#chart");
+				vertical_offset += settings['rowHeight'];
+			}
             // schedule another request
             setTimeout(function () { refreshTrafficSourcesWidget(element, refreshAfterXSecs); }, refreshAfterXSecs * 1000);
         });
@@ -58,17 +69,26 @@ $(function() {
         	data.sort(function(a, b){
         	    return b.value - a.value;
         	});
+            $('#chart').each(function() {
+                // Set table height and width
+    			$("#chart").height((data.length*settings['rowHeight']));
+
+    			for (j=0; j<data.length; j++){
+                	$("#chart").find("div[index="+j+"]").css({ top: 30+(j*settings['rowHeight']) }).appendTo("#chart");
+                }
+            });
         	$.each( data, function( index, value ){
-                	var pc = value['percentage'];
-	        		pc = pc > 100 ? 100 : pc;
-	        		$('#chart').find("div[index="+index+"]").children('.percent').html(pc+'%');
-	        		$('#chart').find("div[index="+index+"]").children('.title').text(value['name']);
-	        		var ww = $('#chart').find("div[index="+index+"]").width();
-	        		var len = parseInt(ww, 10) * parseInt(pc, 10) / 100;
-	        		$('#chart').find("div[index="+index+"]").children('.bar').animate({ 'width' : len+'px' }, 1500);
+               	var pc = value['percentage'];
+        		pc = pc > 100 ? 100 : pc;
+        		$('#chart').find("div[index="+index+"]").attr("id", value['id']);
+        		$('#chart').find("div[index="+index+"]").children('.percent').html(pc+'%');
+        		$('#chart').find("div[index="+index+"]").children('.title').text(value['name']);
+        		var ww = $('#chart').find("div[index="+index+"]").width();
+        		var len = parseInt(ww, 10) * parseInt(pc, 10) / 100;
+        		$('#chart').find("div[index="+index+"]").children('.bar').animate({ 'width' : len+'px' }, 1500);
         	});
             $('#chart').each(function() {
-                var $this = $(this),
+    			var $this = $(this),
                    refreshAfterXSecs = refreshInterval;
                 setTimeout(function() { refreshTrafficSourcesWidget($this, refreshAfterXSecs ); }, refreshAfterXSecs * 1000);
             });

@@ -5,6 +5,11 @@
         "SettingsRefreshIntervalDescription": "Defines how often the widget should be updated.",
         "SettingsRefreshIntervalHelp": "Enter a number which is >= 1",
         "Description": "Show an overview of all traffic sources",
-        "WidgetName": "Traffic Sources"
+        "WidgetName": "Traffic Sources",
+        "Direct": "Direct",
+        "Search": "Search",
+        "Links": "Links",
+        "Social": "Social",
+        "Campaign": "Campaign"
     }
 }

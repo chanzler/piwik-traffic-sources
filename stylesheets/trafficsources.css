@@ -4,7 +4,7 @@
 	margin:0 auto;
 	text-align:left;
 }
-#chart,#form_values {
+#chart {
 	width:90%;
 }
 #chart {
@@ -28,12 +28,13 @@
 	text-align:right;
 }
 #chart div {
-	position: relative;
+	position: absolute;
 	display:block;
 	height:20px;
-	width:90%;
+	width:80%;
 	margin:0 0 5px 5px;
 	text-align:left;
+	max-width:600px;
 }
 #chart div .bar {
 	position: absolute;
