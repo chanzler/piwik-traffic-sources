@@ -36,17 +36,17 @@ $(function() {
         	$.each( data, function( index, value ){
               	var pc = value['percentage'];
         		pc = pc > 100 ? 100 : pc;
-        		$('#chart').find("div[id="+value['id']+"]").children('.percent').html(pc+'%');
-        		var ww = $('#chart').find("div[id="+value['id']+"]").width();
+        		$('#trafficSourcesChart').find("div[id="+value['id']+"]").children('.percent').html(pc+'%');
+        		var ww = $('#trafficSourcesChart').find("div[id="+value['id']+"]").width();
         		var len = parseInt(ww, 10) * parseInt(pc, 10) / 100;
-        		$('#chart').find("div[id="+value['id']+"]").children('.bar').animate({ 'width' : len+'px' }, 1500);
-        		$('#chart').find("div[id="+value['id']+"]").attr("index", index);
+        		$('#trafficSourcesChart').find("div[id="+value['id']+"]").children('.bar').animate({ 'width' : len+'px' }, 1500);
+        		$('#trafficSourcesChart').find("div[id="+value['id']+"]").attr("index", index);
 
         	});
 			//animation
-			var vertical_offset = 30; // Beginning distance of rows from the table body in pixels
+			var vertical_offset = 0; // Beginning distance of rows from the table body in pixels
 			for ( index = 0; index < data.length; index++) {
-				$("#chart").find("div[index="+index+"]").stop().delay(1 * index).animate({ top: vertical_offset}, 1000, 'swing').appendTo("#chart");
+				$("#trafficSourcesChart").find("div[index="+index+"]").stop().delay(1 * index).animate({ top: vertical_offset}, 1000, 'swing').appendTo("#trafficSourcesChart");
 				vertical_offset += settings['rowHeight'];
 			}
             // schedule another request
@@ -69,25 +69,25 @@ $(function() {
         	data.sort(function(a, b){
         	    return b.value - a.value;
         	});
-            $('#chart').each(function() {
+            $('#trafficSourcesChart').each(function() {
                 // Set table height and width
-    			$("#chart").height((data.length*settings['rowHeight']));
+    			$("#trafficSourcesChart").height((data.length*settings['rowHeight']));
 
     			for (j=0; j<data.length; j++){
-                	$("#chart").find("div[index="+j+"]").css({ top: 30+(j*settings['rowHeight']) }).appendTo("#chart");
+                	$("#trafficSourcesChart").find("div[index="+j+"]").css({ top: (j*settings['rowHeight']) }).appendTo("#trafficSourcesChart");
                 }
             });
         	$.each( data, function( index, value ){
                	var pc = value['percentage'];
         		pc = pc > 100 ? 100 : pc;
-        		$('#chart').find("div[index="+index+"]").attr("id", value['id']);
-        		$('#chart').find("div[index="+index+"]").children('.percent').html(pc+'%');
-        		$('#chart').find("div[index="+index+"]").children('.title').text(value['name']);
-        		var ww = $('#chart').find("div[index="+index+"]").width();
+        		$('#trafficSourcesChart').find("div[index="+index+"]").attr("id", value['id']);
+        		$('#trafficSourcesChart').find("div[index="+index+"]").children('.percent').html(pc+'%');
+        		$('#trafficSourcesChart').find("div[index="+index+"]").children('.title').text(value['name']);
+        		var ww = $('#trafficSourcesChart').find("div[index="+index+"]").width();
         		var len = parseInt(ww, 10) * parseInt(pc, 10) / 100;
-        		$('#chart').find("div[index="+index+"]").children('.bar').animate({ 'width' : len+'px' }, 1500);
+        		$('#trafficSourcesChart').find("div[index="+index+"]").children('.bar').animate({ 'width' : len+'px' }, 1500);
         	});
-            $('#chart').each(function() {
+            $('#trafficSourcesChart').each(function() {
     			var $this = $(this),
                    refreshAfterXSecs = refreshInterval;
                 setTimeout(function() { refreshTrafficSourcesWidget($this, refreshAfterXSecs ); }, refreshAfterXSecs * 1000);

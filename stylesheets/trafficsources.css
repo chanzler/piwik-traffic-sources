@@ -1,33 +1,33 @@
-#wrapper {
+#trafficSourcesWrapper {
 	width:100%;
 	max-width:600px;
 	margin:0 auto;
 	text-align:left;
+	display:block;
 }
-#chart {
+#trafficSourcesChart {
+	margin:5px 0 5px 0;
 	width:90%;
+	position:relative;
 }
-#chart {
-	margin:20px 0 20px 0;
-}
-#chart div,#chart div span {
+#trafficSourcesChart div,#trafficSourcesChart div span {
 	height:20px;	
 }
-#chart div .percent {
+#trafficSourcesChart div .percent {
 	width:50px;
 	position: absolute;
 	top:0;
 	right:-40px;
 	text-align:right;
 }
-#chart div .title {
+#trafficSourcesChart div .title {
 	width:30px;
 	position: absolute;
 	top:0;
 	left:0px;
 	text-align:right;
 }
-#chart div {
+#trafficSourcesChart div {
 	position: absolute;
 	display:block;
 	height:20px;
@@ -36,7 +36,7 @@
 	text-align:left;
 	max-width:600px;
 }
-#chart div .bar {
+#trafficSourcesChart div .bar {
 	position: absolute;
 	width:0;
 	top:0;
@@ -58,12 +58,4 @@
 }
 .purple .bar {
 	background:purple;
-}
-.field {
-	padding:3px;
-	width:50px;
-	border:solid 1px #000;
-	float:left;
-	margin-right:5px;
-	color:#333;
 }
