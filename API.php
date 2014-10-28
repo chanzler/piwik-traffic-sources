@@ -68,7 +68,7 @@ class API extends \Piwik\Plugin\API {
 		$origin_dtz = new \DateTimeZone(Site::getTimezoneFor($idSite));
 		$origin_dt = new \DateTime("now", $origin_dtz);
 		$refTime = $origin_dt->format('Y-m-d H:i:s');
-        $directSql = "SELECT COUNT(*)
+/*        $directSql = "SELECT COUNT(*)
                 FROM " . \Piwik\Common::prefixTable("log_visit") . "
                 WHERE idsite = ?
                 AND DATE_SUB('".$refTime."', INTERVAL ? MINUTE) < visit_last_action_time
@@ -122,24 +122,31 @@ class API extends \Piwik\Plugin\API {
         foreach ($social as &$value) {
         	if(API::isSocialUrl($value['referer_url'])) $socialCount++;
         }
+*/
+        $sql = "SELECT referer_url, referer_type
+                FROM " . \Piwik\Common::prefixTable("log_visit") . "
+                WHERE idsite = ?
+                AND DATE_SUB('".$refTime."', INTERVAL ? MINUTE) < visit_last_action_time
+                AND referer_type IN (".Common::REFERRER_TYPE_WEBSITE.",	".Common::REFERRER_TYPE_CAMPAIGN.",	".Common::REFERRER_TYPE_SEARCH_ENGINE.",".Common::REFERRER_TYPE_DIRECT_ENTRY.")
+                ";
+                
+        $result = \Piwik\Db::fetchAll($sql, array(
+        		$idSite, $lastMinutes+($timeZoneDiff/60)
+        ));
+        $socialCount = 0;
+        $direct = 0;
+        $search = 0;
+        $campaign = 0;
+        $website = 0;
+        foreach ($result as &$value) {
+        	if (API::isSocialUrl($value['referer_url'])) $socialCount++;
+        	if ($value['referer_type'] == Common::REFERRER_TYPE_WEBSITE) $website++;
+        	if ($value['referer_type'] == Common::REFERRER_TYPE_CAMPAIGN) $campaign++;
+           	if ($value['referer_type'] == Common::REFERRER_TYPE_SEARCH_ENGINE) $search++;
+           	if ($value['referer_type'] == Common::REFERRER_TYPE_DIRECT_ENTRY) $direct++;
+        }
 
         $totalVisits = (int)$direct+$search+$campaign+$website;
-/*echo(($direct/$totalVisits*100));
-echo ("=");
-echo (($totalVisits==0)?0:round($direct/$totalVisits*100,1));
-echo(($search/$totalVisits*100));
-echo ("=");
-echo (($searchVisits==0)?0:round($search/$totalVisits*100,1));
-echo(($campaign/$totalVisits*100));
-echo ("=");
-echo (($totalVisits==0)?0:round($campaign/$totalVisits*100,1));
-echo(($website-$socialCount/$totalVisits*100));
-echo ("=");
-echo (($totalVisits==0)?0:round($website-$socialCount/$totalVisits*100,1));
-echo(($socialCount/$totalVisits*100));
-echo ("=");
-echo (($totalVisits==0)?0:round($socialCount/$totalVisits*100,1));*/
-		
         return array(
         	array('id'=>1, 'name'=>Piwik::translate('TrafficSources_Direct'), 'value'=>$direct, 'percentage'=>($totalVisits==0)?0:round($direct/$totalVisits*100,1)),
         	array('id'=>2, 'name'=>Piwik::translate('TrafficSources_Search'), 'value'=>$search, 'percentage'=>($totalVisits==0)?0:round($search/$totalVisits*100,1)),

@@ -6,7 +6,7 @@
 	display:block;
 }
 #trafficSourcesChart {
-	margin:5px 0 5px 0;
+	margin:5px auto;
 	width:90%;
 	position:relative;
 }
