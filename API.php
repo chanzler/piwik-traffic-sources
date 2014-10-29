@@ -127,7 +127,10 @@ class API extends \Piwik\Plugin\API {
                 FROM " . \Piwik\Common::prefixTable("log_visit") . "
                 WHERE idsite = ?
                 AND DATE_SUB('".$refTime."', INTERVAL ? MINUTE) < visit_last_action_time
-                AND referer_type IN (".Common::REFERRER_TYPE_WEBSITE.",	".Common::REFERRER_TYPE_CAMPAIGN.",	".Common::REFERRER_TYPE_SEARCH_ENGINE.",".Common::REFERRER_TYPE_DIRECT_ENTRY.")
+                AND (referer_type = ".Common::REFERRER_TYPE_WEBSITE." 
+                	OR referer_type = ".Common::REFERRER_TYPE_CAMPAIGN."
+                	OR referer_type = ".Common::REFERRER_TYPE_SEARCH_ENGINE."
+                	OR referer_type = ".Common::REFERRER_TYPE_DIRECT_ENTRY.")
                 ";
                 
         $result = \Piwik\Db::fetchAll($sql, array(
