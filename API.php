@@ -68,7 +68,7 @@ class API extends \Piwik\Plugin\API {
 		$origin_dtz = new \DateTimeZone(Site::getTimezoneFor($idSite));
 		$origin_dt = new \DateTime("now", $origin_dtz);
 		$refTime = $origin_dt->format('Y-m-d H:i:s');
-/*        $directSql = "SELECT COUNT(*)
+        $directSql = "SELECT COUNT(*)
                 FROM " . \Piwik\Common::prefixTable("log_visit") . "
                 WHERE idsite = ?
                 AND DATE_SUB('".$refTime."', INTERVAL ? MINUTE) < visit_last_action_time
@@ -122,15 +122,12 @@ class API extends \Piwik\Plugin\API {
         foreach ($social as &$value) {
         	if(API::isSocialUrl($value['referer_url'])) $socialCount++;
         }
-*/
-        $sql = "SELECT referer_url, referer_type
+
+/*        $sql = "SELECT referer_url, referer_type
                 FROM " . \Piwik\Common::prefixTable("log_visit") . "
                 WHERE idsite = ?
                 AND DATE_SUB('".$refTime."', INTERVAL ? MINUTE) < visit_last_action_time
-                AND (referer_type = ".Common::REFERRER_TYPE_WEBSITE." 
-                	OR referer_type = ".Common::REFERRER_TYPE_CAMPAIGN."
-                	OR referer_type = ".Common::REFERRER_TYPE_SEARCH_ENGINE."
-                	OR referer_type = ".Common::REFERRER_TYPE_DIRECT_ENTRY.")
+                AND referer_type IN (".Common::REFERRER_TYPE_WEBSITE.",	".Common::REFERRER_TYPE_CAMPAIGN.",	".Common::REFERRER_TYPE_SEARCH_ENGINE.",".Common::REFERRER_TYPE_DIRECT_ENTRY.")
                 ";
                 
         $result = \Piwik\Db::fetchAll($sql, array(
@@ -148,7 +145,7 @@ class API extends \Piwik\Plugin\API {
            	if ($value['referer_type'] == Common::REFERRER_TYPE_SEARCH_ENGINE) $search++;
            	if ($value['referer_type'] == Common::REFERRER_TYPE_DIRECT_ENTRY) $direct++;
         }
-
+*/
         $totalVisits = (int)$direct+$search+$campaign+$website;
         return array(
         	array('id'=>1, 'name'=>Piwik::translate('TrafficSources_Direct'), 'value'=>$direct, 'percentage'=>($totalVisits==0)?0:round($direct/$totalVisits*100,1)),
