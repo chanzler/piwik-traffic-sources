@@ -1,16 +1,14 @@
-# Piwik PerformanceMonitor Plugin
+# Piwik Traffic Sources
 
 ## Description
 
-This is a plugin for the Open Source Web Analytics platform Piwik. If enabled, it will add a new widget that you can add to your dashboard an a new link in the top navigation.
+This is a plugin for the Open Source Web Analytics platform Piwik. If enabled, it will add a new widget that you can add to your dashboard.
 
-The widget will show the performance index of a site that auto-refresh every 30 seconds. It shows the number of visitors or visit time in a 30 minute period compared to the maximum number of visitors in any 30 minute period of the last 30 days.
+The widget will show you the actual traffic sources of a site. The widget auto-refreshes every x seconds. 
 
-This plugin is inspired by the [piwik barometer plugin](https://github.com/halfdan/piwik-barometer-plugin) and uses a lightly modified jQuery-Dynameter (original by [Tzechiu Lei](http://tze1.com/dynameter/).
+**This plugin should run fine with installations with up to 10.000.000 page impressions per day. If you run a very large piwik installation and have performance issues with this plugin, please contact me - there is a solution for this. I have it up and running in an installation with more than 15 million visits per day.**
 
-**This plugin should run fine with installations with up to 100.000 page impressions per day. If you run a very large piwik installation and have performance issues with this plugin, please contact me - there is a solution for this. I have it up and running in an installation with more than 5 million visits per day.**
-
-(Tested with piwik 2.7.0, but supposed to run with older versions)
+(Tested with piwik 2.8.3, but supposed to run with older versions)
 
 ## Installation
 
@@ -20,7 +18,7 @@ Install it via Piwik Marketplace OR install manually:
 
    ```
    cd plugins/
-   git clone https://github.com/chanzler/piwik-performance-monitor.git PerformanceMonitor
+   git clone https://github.com/chanzler/piwik-traffic-sources.git TrafficSources
    ```
 
 2. Login as superuser into your Piwik installation and activate the plugin under Settings -> Plugins
@@ -32,25 +30,12 @@ Install it via Piwik Marketplace OR install manually:
 ###Features
 Here is a list of features that are included in this project:
 
-* Define new widget ("Performance Monitor")
-* Add an item to the top navigation ("Performance overview") which displays the performance monitor widget for all your configured sites.
+* New live widget that displays the actual traffic sources as bar charts
 
 ###Configuration
 *Refresh interval*: Defines how often the widgets will be updated. Every 30 seconds is a good value to choose.
 
-*Measurement period*: Defines the measurement period in minutes. 5 minutes is a good value to choose.
-
-*Comparison period*: Defines the period (x * 24h) the last 30 minutes are compared to. A good value for small sites with more or less static content is 30. For sites with peak days on weekends for example 1 will be a good value. 1 is also a good value for very big sites with a lot of traffic. You will have to play around with this value a little bit and figure out whalt will fit your needs.
-
-*Sites in overview*: Defines which sites are displayed in the overview.  
-
 ## Changelog
-
-### 0.2.0 Second Beta
-* made the plugin configurable by settings
-* performance overview now links to the dashboards
-* fixed the timezone bug (configure timezone for each site properly)
-* fixed several minor bugs
 
 ### 0.1.0 First Beta
 * initial release
