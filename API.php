@@ -129,7 +129,7 @@ class API extends \Piwik\Plugin\API {
 		$campaignPercentage = ($totalVisits==0)?0:round($campaign/$totalVisits*100,2,PHP_ROUND_HALF_DOWN);
 		$websitePercentage = ($totalVisits==0)?0:round(($website-$socialCount)/$totalVisits*100,2,PHP_ROUND_HALF_DOWN);
 		$socialPercentage = ($totalVisits==0)?0:round($socialCount/$totalVisits*100,2,PHP_ROUND_HALF_DOWN);
-		$undefinedPercentage = (float) 100-$directPercentage-$searchPercentage-$campaignPercentage-$websitePercentage-$socialPercentage;
+		$undefinedPercentage = round(100-$directPercentage-$searchPercentage-$campaignPercentage-$websitePercentage-$socialPercentage,2,PHP_ROUND_HALF_DOWN);
 		return array(
         	array('id'=>1, 'name'=>Piwik::translate('TrafficSources_Direct'), 'value'=>$direct, 'percentage'=>$directPercentage),
         	array('id'=>2, 'name'=>Piwik::translate('TrafficSources_Search'), 'value'=>$search, 'percentage'=>$searchPercentage),
