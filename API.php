@@ -123,44 +123,21 @@ class API extends \Piwik\Plugin\API {
         	if(API::isSocialUrl($value['referer_url'])) $socialCount++;
         }
 
-/*        $sql = "SELECT referer_url, referer_type
-                FROM " . \Piwik\Common::prefixTable("log_visit") . "
-                WHERE idsite = ?
-                AND DATE_SUB('".$refTime."', INTERVAL ? MINUTE) < visit_last_action_time
-                AND referer_type IN (".Common::REFERRER_TYPE_WEBSITE.",	".Common::REFERRER_TYPE_CAMPAIGN.",	".Common::REFERRER_TYPE_SEARCH_ENGINE.",".Common::REFERRER_TYPE_DIRECT_ENTRY.")
-                ";
-                
-        $result = \Piwik\Db::fetchAll($sql, array(
-        		$idSite, $lastMinutes+($timeZoneDiff/60)
-        ));
-        $socialCount = 0;
-        $direct = 0;
-        $search = 0;
-        $campaign = 0;
-        $website = 0;
-        foreach ($result as &$value) {
-        	if (API::isSocialUrl($value['referer_url'])) $socialCount++;
-        	if ($value['referer_type'] == Common::REFERRER_TYPE_WEBSITE) $website++;
-        	if ($value['referer_type'] == Common::REFERRER_TYPE_CAMPAIGN) $campaign++;
-           	if ($value['referer_type'] == Common::REFERRER_TYPE_SEARCH_ENGINE) $search++;
-           	if ($value['referer_type'] == Common::REFERRER_TYPE_DIRECT_ENTRY) $direct++;
-        }
-*/
         $totalVisits = (int)$direct+$search+$campaign+$website;
-        return array(
-        	array('id'=>1, 'name'=>Piwik::translate('TrafficSources_Direct'), 'value'=>$direct, 'percentage'=>($totalVisits==0)?0:round($direct/$totalVisits*100,1)),
-        	array('id'=>2, 'name'=>Piwik::translate('TrafficSources_Search'), 'value'=>$search, 'percentage'=>($totalVisits==0)?0:round($search/$totalVisits*100,1)),
-        	array('id'=>3, 'name'=>Piwik::translate('TrafficSources_Campaign'), 'value'=>$campaign, 'percentage'=>($totalVisits==0)?0:round($campaign/$totalVisits*100,1)),
-        	array('id'=>4, 'name'=>Piwik::translate('TrafficSources_Links'), 'value'=>$website, 'percentage'=>($totalVisits==0)?0:round(($website-$socialCount)/$totalVisits*100,1)), //subtract socials
-        	array('id'=>5, 'name'=>Piwik::translate('TrafficSources_Social'), 'value'=>$socialCount, 'percentage'=>($totalVisits==0)?0:round($socialCount/$totalVisits*100,1))
-        );
-/*        return array(
-        	array('id'=>1, 'name'=>Piwik::translate('TrafficSources_Direct'), 'value'=>(int)68, 'percentage'=>68),
-        	array('id'=>2, 'name'=>Piwik::translate('TrafficSources_Search'), 'value'=>(int)20, 'percentage'=>20),
-        	array('id'=>3, 'name'=>Piwik::translate('TrafficSources_Campaign'), 'value'=>(int)2, 'percentage'=>3),
-        	array('id'=>4, 'name'=>Piwik::translate('TrafficSources_Links'), 'value'=>(int)80-(int)3, 'percentage'=>73), //subtract socials
-        	array('id'=>5, 'name'=>Piwik::translate('TrafficSources_Social'), 'value'=>(int)32, 'percentage'=>32)
-        );*/
+		$directPercentage = ($totalVisits==0)?0:round($direct/$totalVisits*100,2,PHP_ROUND_HALF_DOWN);
+		$searchPercentage = ($totalVisits==0)?0:round($search/$totalVisits*100,2,PHP_ROUND_HALF_DOWN);
+		$campaignPercentage = ($totalVisits==0)?0:round($campaign/$totalVisits*100,2,PHP_ROUND_HALF_DOWN);
+		$websitePercentage = ($totalVisits==0)?0:round(($website-$socialCount)/$totalVisits*100,2,PHP_ROUND_HALF_DOWN);
+		$socialPercentage = ($totalVisits==0)?0:round($socialCount/$totalVisits*100,2,PHP_ROUND_HALF_DOWN);
+		$undefinedPercentage = (float) 100-$directPercentage-$searchPercentage-$campaignPercentage-$websitePercentage-$socialPercentage;
+		return array(
+        	array('id'=>1, 'name'=>Piwik::translate('TrafficSources_Direct'), 'value'=>$direct, 'percentage'=>$directPercentage),
+        	array('id'=>2, 'name'=>Piwik::translate('TrafficSources_Search'), 'value'=>$search, 'percentage'=>$searchPercentage),
+        	array('id'=>3, 'name'=>Piwik::translate('TrafficSources_Campaign'), 'value'=>$campaign, 'percentage'=>$campaignPercentage),
+        	array('id'=>4, 'name'=>Piwik::translate('TrafficSources_Links'), 'value'=>$website, 'percentage'=>$websitePercentage), //subtract socials
+        	array('id'=>5, 'name'=>Piwik::translate('TrafficSources_Social'), 'value'=>$socialCount, 'percentage'=>$socialPercentage),
+        	array('id'=>6, 'name'=>Piwik::translate('TrafficSources_Undefined'), 'value'=>0, 'percentage'=>$undefinedPercentage)
+		);
     }
 
 }

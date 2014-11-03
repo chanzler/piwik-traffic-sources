@@ -47,15 +47,3 @@
 	opacity: .4; 
 	filter:Alpha(Opacity=40);
 }
-.blue .bar {
-	background:blue;
-}
-.yellow .bar {
-	background:yellow;
-}
-.orange .bar {
-	background:orange;
-}
-.purple .bar {
-	background:purple;
-}
