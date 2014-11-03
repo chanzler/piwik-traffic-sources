@@ -31,7 +31,7 @@ $(function() {
         ajaxRequest.setFormat('json');
         ajaxRequest.setCallback(function (data) {
         	data.sort(function(a, b){
-        	    return b.value - a.value;
+        	    return b.percentage - a.percentage;
         	});
         	$.each( data, function( index, value ){
               	var pc = value['percentage'];
@@ -67,7 +67,7 @@ $(function() {
         ajaxRequest.setFormat('json');
         ajaxRequest.setCallback(function (data) {
         	data.sort(function(a, b){
-        	    return b.value - a.value;
+        	    return b.percentage - a.percentage;
         	});
             $('#trafficSourcesChart').each(function() {
                 // Set table height and width
