@@ -35,7 +35,7 @@ class Controller extends \Piwik\Plugin\Controller
         $view = new View('@TrafficSources/index.twig');
         $this->setBasicVariablesView($view);
         $view->idSite = $this->idSite;
-        $view->refreshInterval = (int)$settings->refreshInterval->getValue();
+        $view->refreshInterval = (int)($settings->refreshInterval->getValue()*60);
 
         return $view->render();
     }

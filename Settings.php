@@ -39,7 +39,7 @@ class Settings extends \Piwik\Plugin\Settings
         $this->refreshInterval->uiControlAttributes = array('size' => 3);
         $this->refreshInterval->description     = Piwik::translate('TrafficSources_SettingsRefreshIntervalDescription');
         $this->refreshInterval->inlineHelp      = Piwik::translate('TrafficSources_SettingsRefreshIntervalHelp');
-        $this->refreshInterval->defaultValue    = '300';
+        $this->refreshInterval->defaultValue    = '5';
         $this->refreshInterval->validate = function ($value, $setting) {
             if ($value < 1) {
                 throw new \Exception('Value is invalid');

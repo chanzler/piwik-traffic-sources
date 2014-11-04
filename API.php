@@ -124,19 +124,17 @@ class API extends \Piwik\Plugin\API {
         }
 
         $totalVisits = (int)$direct+$search+$campaign+$website;
-		$directPercentage = ($totalVisits==0)?0:round($direct/$totalVisits*100,2,PHP_ROUND_HALF_DOWN);
-		$searchPercentage = ($totalVisits==0)?0:round($search/$totalVisits*100,2,PHP_ROUND_HALF_DOWN);
-		$campaignPercentage = ($totalVisits==0)?0:round($campaign/$totalVisits*100,2,PHP_ROUND_HALF_DOWN);
-		$websitePercentage = ($totalVisits==0)?0:round(($website-$socialCount)/$totalVisits*100,2,PHP_ROUND_HALF_DOWN);
-		$socialPercentage = ($totalVisits==0)?0:round($socialCount/$totalVisits*100,2,PHP_ROUND_HALF_DOWN);
-		$undefinedPercentage = (round(100-$directPercentage-$searchPercentage-$campaignPercentage-$websitePercentage-$socialPercentage,2,PHP_ROUND_HALF_DOWN)<0)?0:round(100-$directPercentage-$searchPercentage-$campaignPercentage-$websitePercentage-$socialPercentage,2,PHP_ROUND_HALF_DOWN);
+		$directPercentage = ($totalVisits==0)?0:round($direct/$totalVisits*100,2);
+		$searchPercentage = ($totalVisits==0)?0:round($search/$totalVisits*100,2);
+		$campaignPercentage = ($totalVisits==0)?0:round($campaign/$totalVisits*100,2);
+		$websitePercentage = ($totalVisits==0)?0:round(($website-$socialCount)/$totalVisits*100,2);
+		$socialPercentage = ($totalVisits==0)?0:round($socialCount/$totalVisits*100,2);
 		return array(
         	array('id'=>1, 'name'=>Piwik::translate('TrafficSources_Direct'), 'value'=>$direct, 'percentage'=>$directPercentage),
         	array('id'=>2, 'name'=>Piwik::translate('TrafficSources_Search'), 'value'=>$search, 'percentage'=>$searchPercentage),
         	array('id'=>3, 'name'=>Piwik::translate('TrafficSources_Campaign'), 'value'=>$campaign, 'percentage'=>$campaignPercentage),
         	array('id'=>4, 'name'=>Piwik::translate('TrafficSources_Links'), 'value'=>$website, 'percentage'=>$websitePercentage), //subtract socials
         	array('id'=>5, 'name'=>Piwik::translate('TrafficSources_Social'), 'value'=>$socialCount, 'percentage'=>$socialPercentage),
-        	array('id'=>6, 'name'=>Piwik::translate('TrafficSources_Undefined'), 'value'=>0, 'percentage'=>$undefinedPercentage)
 		);
     }
 
