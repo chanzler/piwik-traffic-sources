@@ -40,6 +40,9 @@ class API extends \Piwik\Plugin\API {
             			return false; // A UTC timestamp was returned -- bail out!
         		}
     		}
+			if (preg_match("/^UTC[-+]*/", $origin_tz)){
+				return(substr($origin_tz, 3));
+    		}
     		$origin_dtz = new \DateTimeZone($origin_tz);
     		$remote_dtz = new \DateTimeZone($remote_tz);
     		$origin_dt = new \DateTime("now", $origin_dtz);
@@ -65,8 +68,14 @@ class API extends \Piwik\Plugin\API {
     {
         \Piwik\Piwik::checkUserHasViewAccess($idSite);
 		$timeZoneDiff = API::get_timezone_offset('UTC', Site::getTimezoneFor($idSite));
-		$origin_dtz = new \DateTimeZone(Site::getTimezoneFor($idSite));
-		$origin_dt = new \DateTime("now", $origin_dtz);
+		if (preg_match("/^UTC[-+]*/", Site::getTimezoneFor($idSite))){
+			$origin_dtz = new \DateTimeZone("UTC");
+			$origin_dt = new \DateTime("now", $origin_dtz);
+			$origin_dt->modify( substr($origin_tz, 3).' hour' );			
+    	} else {
+			$origin_dtz = new \DateTimeZone(Site::getTimezoneFor($idSite));
+			$origin_dt = new \DateTime("now", $origin_dtz);
+    	}
 		$refTime = $origin_dt->format('Y-m-d H:i:s');
         $directSql = "SELECT COUNT(*)
                 FROM " . \Piwik\Common::prefixTable("log_visit") . "
