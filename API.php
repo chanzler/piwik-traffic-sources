@@ -139,11 +139,11 @@ class API extends \Piwik\Plugin\API {
 		$websitePercentage = ($totalVisits==0)?0:round(($website-$socialCount)/$totalVisits*100,2);
 		$socialPercentage = ($totalVisits==0)?0:round($socialCount/$totalVisits*100,2);
 		return array(
-        	array('id'=>1, 'name'=>Piwik::translate('TrafficSources_Direct'), 'value'=>$direct, 'percentage'=>sprintf("%01.2f", $directPercentage)),
-        	array('id'=>2, 'name'=>Piwik::translate('TrafficSources_Search'), 'value'=>$search, 'percentage'=>sprintf("%01.2f", $searchPercentage)),
-        	array('id'=>3, 'name'=>Piwik::translate('TrafficSources_Campaign'), 'value'=>$campaign, 'percentage'=>sprintf("%01.2f", $campaignPercentage)),
-        	array('id'=>4, 'name'=>Piwik::translate('TrafficSources_Links'), 'value'=>$website, 'percentage'=>sprintf("%01.2f", $websitePercentage)), //subtract socials
-        	array('id'=>5, 'name'=>Piwik::translate('TrafficSources_Social'), 'value'=>$socialCount, 'percentage'=>sprintf("%01.2f", $socialPercentage))
+			array('id'=>1, 'name'=>Piwik::translate('TrafficSources_Direct'), 'value'=>$direct, 'percentage'=>str_replace(",", ".", sprintf("%01.2f", $directPercentage))),
+			array('id'=>2, 'name'=>Piwik::translate('TrafficSources_Search'), 'value'=>$search, 'percentage'=>str_replace(",", ".", sprintf("%01.2f", $searchPercentage))),
+			array('id'=>3, 'name'=>Piwik::translate('TrafficSources_Campaign'), 'value'=>$campaign, 'percentage'=>str_replace(",", ".", sprintf("%01.2f", $campaignPercentage))),
+			array('id'=>4, 'name'=>Piwik::translate('TrafficSources_Links'), 'value'=>$website, 'percentage'=>str_replace(",", ".", sprintf("%01.2f", $websitePercentage))), //subtract socials
+			array('id'=>5, 'name'=>Piwik::translate('TrafficSources_Social'), 'value'=>$socialCount, 'percentage'=>str_replace(",", ".", sprintf("%01.2f", $socialPercentage)))
 		);
     }
 
