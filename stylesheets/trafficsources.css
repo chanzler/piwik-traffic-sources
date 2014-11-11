@@ -21,11 +21,11 @@
 	text-align:right;
 }
 #trafficSourcesChart div .title {
-	width:30px;
+	width:100px;
 	position: absolute;
 	top:0;
 	left:0px;
-	text-align:right;
+	text-align:left;
 }
 #trafficSourcesChart div {
 	position: absolute;
