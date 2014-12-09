@@ -80,7 +80,7 @@ class API extends \Piwik\Plugin\API {
         $directSql = "SELECT COUNT(*)
                 FROM " . \Piwik\Common::prefixTable("log_visit") . "
                 WHERE idsite = ?
-                AND DATE_SUB('".$refTime."', INTERVAL ? MINUTE) < visit_last_action_time
+                AND DATE_SUB('".$refTime."', INTERVAL ? MINUTE) < visit_first_action_time
                 AND referer_type = ".Common::REFERRER_TYPE_DIRECT_ENTRY."
                 ";
         $direct = \Piwik\Db::fetchOne($directSql, array(
@@ -90,7 +90,7 @@ class API extends \Piwik\Plugin\API {
         $searchSql = "SELECT COUNT(*)
                 FROM " . \Piwik\Common::prefixTable("log_visit") . "
                 WHERE idsite = ?
-                AND DATE_SUB('".$refTime."', INTERVAL ? MINUTE) < visit_last_action_time
+                AND DATE_SUB('".$refTime."', INTERVAL ? MINUTE) < visit_first_action_time
                 AND referer_type = ".Common::REFERRER_TYPE_SEARCH_ENGINE."
                 ";
         $search = \Piwik\Db::fetchOne($searchSql, array(
@@ -100,7 +100,7 @@ class API extends \Piwik\Plugin\API {
         $campaignSql = "SELECT COUNT(*)
                 FROM " . \Piwik\Common::prefixTable("log_visit") . "
                 WHERE idsite = ?
-                AND DATE_SUB('".$refTime."', INTERVAL ? MINUTE) < visit_last_action_time
+                AND DATE_SUB('".$refTime."', INTERVAL ? MINUTE) < visit_first_action_time
                 AND referer_type = ".Common::REFERRER_TYPE_CAMPAIGN."
                 ";
         $campaign = \Piwik\Db::fetchOne($campaignSql, array(
@@ -110,7 +110,7 @@ class API extends \Piwik\Plugin\API {
         $websiteSql = "SELECT COUNT(*)
                 FROM " . \Piwik\Common::prefixTable("log_visit") . "
                 WHERE idsite = ?
-                AND DATE_SUB('".$refTime."', INTERVAL ? MINUTE) < visit_last_action_time
+                AND DATE_SUB('".$refTime."', INTERVAL ? MINUTE) < visit_first_action_time
                 AND referer_type = ".Common::REFERRER_TYPE_WEBSITE."
                 ";
         $website = \Piwik\Db::fetchOne($websiteSql, array(
@@ -120,7 +120,7 @@ class API extends \Piwik\Plugin\API {
         $socialSql = "SELECT referer_url
                 FROM " . \Piwik\Common::prefixTable("log_visit") . "
                 WHERE idsite = ?
-                AND DATE_SUB('".$refTime."', INTERVAL ? MINUTE) < visit_last_action_time
+                AND DATE_SUB('".$refTime."', INTERVAL ? MINUTE) < visit_first_action_time
                 AND referer_type = ".Common::REFERRER_TYPE_WEBSITE."
                 ";
                 
